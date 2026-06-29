@@ -36,6 +36,103 @@ export default function HomePage() {
         <JWTDecoder />
       </section>
 
+      {/* Collapsible Content Sections */}
+      <section aria-label="Additional Information" className="mt-12 md:mt-16 border-t border-gray-200 pt-10 md:pt-12">
+        <div className="space-y-4">
+          {/* What is JWT? */}
+          <details className="group rounded-xl border border-gray-200 bg-gray-50/70 overflow-hidden">
+            <summary className="flex items-center justify-between cursor-pointer px-5 py-4 text-lg font-semibold text-gray-900 select-none hover:bg-gray-100/80 transition-colors list-none">
+              <h2 className="text-lg font-semibold m-0">What is JWT?</h2>
+              <svg className="w-5 h-5 shrink-0 text-gray-500 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div className="px-5 pb-5 pt-2 text-gray-700 space-y-3">
+              <p>
+                A <strong>JSON Web Token (JWT)</strong> is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.
+              </p>
+              <h3 className="text-base font-semibold text-gray-800 mt-4">The Three Parts of a JWT</h3>
+              <ul role="list" className="list-disc pl-5 space-y-1.5">
+                <li><strong>Header:</strong> Contains the token type ("JWT") and the signing algorithm (e.g., HS256, RS256). It is Base64Url-encoded to form the first part of the token.</li>
+                <li><strong>Payload:</strong> Contains the claims — statements about an entity and additional data. Claims include user information, permissions, and token metadata like expiration time.</li>
+                <li><strong>Signature:</strong> Created by signing the encoded header and payload with a secret or private key. It verifies that the token was not altered in transit.</li>
+              </ul>
+              <h3 className="text-base font-semibold text-gray-800 mt-4">Common Use Cases</h3>
+              <ul role="list" className="list-disc pl-5 space-y-1.5">
+                <li><strong>Authentication:</strong> JWTs are widely used for single sign-on (SSO) and session management. Once a user logs in, a JWT is returned and stored client-side, then sent with each subsequent request.</li>
+                <li><strong>Information Exchange:</strong> JWTs provide a compact way to securely transmit data between parties, ensuring the data has not been tampered with thanks to the digital signature.</li>
+              </ul>
+            </div>
+          </details>
+
+          {/* How to Use */}
+          <details className="group rounded-xl border border-gray-200 bg-gray-50/70 overflow-hidden">
+            <summary className="flex items-center justify-between cursor-pointer px-5 py-4 text-lg font-semibold text-gray-900 select-none hover:bg-gray-100/80 transition-colors list-none">
+              <h2 className="text-lg font-semibold m-0">How to Use</h2>
+              <svg className="w-5 h-5 shrink-0 text-gray-500 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div className="px-5 pb-5 pt-2 text-gray-700 space-y-3">
+              <p>Decoding a JWT with our tool is quick and easy. Follow these steps:</p>
+              <ol role="list" className="list-decimal pl-5 space-y-2">
+                <li><strong>Paste your JWT token</strong> into the input box at the top of the page. You can also click the &ldquo;Sample&rdquo; button to load a test token.</li>
+                <li><strong>Click the &ldquo;Decode&rdquo; button</strong> — or simply let the tool decode automatically as you paste.</li>
+                <li><strong>View the decoded Header and Payload</strong> displayed in a clean, formatted JSON view below the input.</li>
+                <li><strong>Copy the results</strong> using the copy button, or download the decoded output as a JSON file for further analysis.</li>
+              </ol>
+              <p className="mt-2">That&apos;s it — no sign-up, no installation, and no data leaves your browser.</p>
+            </div>
+          </details>
+
+          {/* FAQ */}
+          <details className="group rounded-xl border border-gray-200 bg-gray-50/70 overflow-hidden">
+            <summary className="flex items-center justify-between cursor-pointer px-5 py-4 text-lg font-semibold text-gray-900 select-none hover:bg-gray-100/80 transition-colors list-none">
+              <h2 className="text-lg font-semibold m-0">FAQ</h2>
+              <svg className="w-5 h-5 shrink-0 text-gray-500 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div className="px-5 pb-5 pt-2 text-gray-700">
+              <dl className="space-y-4">
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: Is my JWT token safe?</dt>
+                  <dd className="mt-1 ml-0">Yes, all decoding happens entirely in your browser. We never store, transmit, or log your tokens. Your data stays on your device.</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: What is a JWT used for?</dt>
+                  <dd className="mt-1 ml-0">JWTs are commonly used for authentication and secure information exchange between a client and a server.</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: Can I decode expired tokens?</dt>
+                  <dd className="mt-1 ml-0">Yes, you can decode any JWT regardless of its expiration status. The tool will show you the expiration claim so you can check it yourself.</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: What does &ldquo;Invalid token&rdquo; mean?</dt>
+                  <dd className="mt-1 ml-0">It means the input does not match the expected JWT format (three Base64Url-encoded parts separated by dots). Check for typos, extra spaces, or missing characters.</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: Is this tool free?</dt>
+                  <dd className="mt-1 ml-0">Yes, it is completely free with no usage limits, no sign-up required.</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: Can I use this on mobile?</dt>
+                  <dd className="mt-1 ml-0">Yes, our tool is fully responsive and works on all devices including smartphones, tablets, and desktop computers.</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: Do you store my tokens?</dt>
+                  <dd className="mt-1 ml-0">No, everything is processed locally in your browser. No token data is ever sent to or stored on any server.</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-gray-800">Q: What algorithms are supported?</dt>
+                  <dd className="mt-1 ml-0">We support HS256, RS256, ES256, PS256, and other common JWT signing algorithms. The algorithm used is always displayed in the decoded header.</dd>
+                </div>
+              </dl>
+            </div>
+          </details>
+        </div>
+      </section>
+
       {/* SEO Content Section */}
       <section aria-label="JWT Educational Content" className="mt-12 md:mt-16 prose max-w-none">
         <h2>What Is a JWT?</h2>
