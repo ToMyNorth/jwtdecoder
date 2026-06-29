@@ -49,6 +49,4 @@ export const blogPosts = [
 
 export const navLinks = [
   { href: "/", label: "JWT Decoder" },
-  { href: "/blog", label: "Blog" },
-  { href: "/about", label: "About" },
 ];
