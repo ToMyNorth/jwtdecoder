@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "JWT Decoder Pro",
   shortName: "JWT Decoder",
-  url: "https://jwtdecoder.vercel.app",
+  url: "https://easyjwt.top",
   title: "JWT Decoder Pro - Free Online JWT Token Parser & Validator",
   description: "Free online JWT decoder and parser tool. Instantly decode, inspect and validate JSON Web Tokens. View header, payload, claims and expiration status with our fast, secure client-side JWT analyzer.",
   keywords: [
