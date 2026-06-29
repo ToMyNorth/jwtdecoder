@@ -4,6 +4,7 @@ import "./globals.css";
 import { siteConfig } from "@/lib/siteConfig";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -151,13 +152,15 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       </head>
       <body className="min-h-full flex flex-col bg-white text-gray-900">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <ErrorBoundary>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </ErrorBoundary>
       </body>
     </html>
   );

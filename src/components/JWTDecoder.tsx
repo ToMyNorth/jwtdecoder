@@ -109,7 +109,7 @@ export default function JWTDecoder() {
           displayValue = `${value} (${decoded.notBefore ? formatDate(decoded.notBefore) : ""})`;
         }
         return { key, label: CLAIM_LABELS[key], value: displayValue };
-      }).filter(Boolean)
+      }).filter((row): row is NonNullable<typeof row> => row !== null)
     : [];
 
   const customClaims = decoded

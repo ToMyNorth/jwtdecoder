@@ -100,7 +100,8 @@ export function decodeJWT(token: string): DecodedJWT | JWTError {
 }
 
 export function isJWTError(result: DecodedJWT | JWTError): result is JWTError {
-  return "type" in result && "message" in result;
+  return 'type' in result && typeof result.type === 'string' &&
+    ['invalid_format', 'invalid_base64', 'invalid_json', 'empty'].includes(result.type);
 }
 
 export function formatDate(date: Date): string {

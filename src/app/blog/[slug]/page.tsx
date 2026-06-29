@@ -234,10 +234,21 @@ function inlineFormat(text: string): string {
   text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
   // Bold
   text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-  // Links [text](url)
+  // Links [text](url) - XSS prevention: only allow http(s) and relative paths
   text = text.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2">$1</a>'
+    (_match, linkText: string, url: string) => {
+      // Only allow safe URLs: http(s):// or relative paths starting with /
+      const isSafeUrl =
+        url.startsWith("http://") ||
+        url.startsWith("https://") ||
+        url.startsWith("/");
+      if (isSafeUrl) {
+        return `<a href="${url}">${linkText}</a>`;
+      }
+      // For unsafe protocols (javascript:, data:, etc.), render as plain text
+      return `${linkText} (${url})`;
+    }
   );
   return text;
 }
