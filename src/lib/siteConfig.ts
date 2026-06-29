@@ -19,6 +19,8 @@ export const siteConfig = {
   author: "JWT Decoder Pro",
   twitter: "@jwtdecoderpro",
   locale: "en_US",
+  ogImage: "/api/og?title=JWT%20Decoder%20Pro&description=Free%20Online%20JWT%20Token%20Parser%20%26%20Validator",
+  twitterImage: "/api/og?title=JWT%20Decoder%20Pro&description=Free%20Online%20JWT%20Token%20Parser%20%26%20Validator",
 };
 
 export const blogPosts = [

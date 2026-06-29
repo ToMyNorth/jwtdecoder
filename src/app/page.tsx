@@ -13,27 +13,31 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
+    <article className="max-w-5xl mx-auto px-4 py-8 md:py-12">
       {/* Hero Section */}
-      <div className="text-center mb-8 md:mb-12">
-        <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
-          Free Online{" "}
-          <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            JWT Decoder
-          </span>{" "}
-          &amp; Parser
-        </h1>
-        <p className="mt-3 md:mt-4 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
-          Instantly decode, inspect, and validate JSON Web Tokens. View header,
-          payload, claims, and expiration status — all securely in your browser.
-        </p>
-      </div>
+      <section aria-label="Introduction">
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Free Online{" "}
+            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              JWT Decoder
+            </span>{" "}
+            &amp; Parser
+          </h1>
+          <p className="mt-3 md:mt-4 text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            Instantly decode, inspect, and validate JSON Web Tokens. View header,
+            payload, claims, and expiration status — all securely in your browser.
+          </p>
+        </div>
+      </section>
 
       {/* Tool */}
-      <JWTDecoder />
+      <section aria-label="JWT Decoder Tool">
+        <JWTDecoder />
+      </section>
 
       {/* SEO Content Section */}
-      <div className="mt-12 md:mt-16 prose max-w-none">
+      <section aria-label="JWT Educational Content" className="mt-12 md:mt-16 prose max-w-none">
         <h2>What Is a JWT?</h2>
         <p>
           A JSON Web Token (JWT) is a compact, URL-safe means of representing
@@ -45,22 +49,22 @@ export default function HomePage() {
 
         <h2>How to Use This JWT Decoder</h2>
         <p>Using our JWT decoder is simple and fast:</p>
-        <ol>
+        <ol role="list">
           <li>
-            <strong>Paste your token:</strong> Copy a JWT from your application
+            <strong>Step 1 — Paste your token:</strong> Copy a JWT from your application
             or click the &ldquo;Sample&rdquo; button to load a test token.
           </li>
           <li>
-            <strong>Instant decoding:</strong> The tool automatically decodes
+            <strong>Step 2 — Instant decoding:</strong> The tool automatically decodes
             the header and payload in real-time as you type or paste.
           </li>
           <li>
-            <strong>Inspect the results:</strong> View the formatted header,
+            <strong>Step 3 — Inspect the results:</strong> View the formatted header,
             payload claims, signature, algorithm details, and expiration
             status.
           </li>
           <li>
-            <strong>Copy or clear:</strong> Use the action buttons to copy the
+            <strong>Step 4 — Copy or clear:</strong> Use the action buttons to copy the
             token or clear the input.
           </li>
         </ol>
@@ -70,7 +74,7 @@ export default function HomePage() {
           A JWT is composed of three Base64Url-encoded parts, separated by
           dots:
         </p>
-        <ul>
+        <ul role="list">
           <li>
             <strong>Header:</strong> Contains metadata about the token type
             (typically &ldquo;JWT&rdquo;) and the signing algorithm used (e.g.,
@@ -94,7 +98,7 @@ export default function HomePage() {
           JWTs include standard registered claims that provide important
           metadata:
         </p>
-        <ul>
+        <ul role="list">
           <li>
             <strong>iss (Issuer):</strong> The principal that issued the token.
           </li>
@@ -131,36 +135,38 @@ export default function HomePage() {
           about data leakage.
         </p>
 
-        <h2>Frequently Asked Questions</h2>
-        <h3>What does a JWT decoder do?</h3>
-        <p>
-          A JWT decoder takes a Base64Url-encoded JWT string and decodes it into
-          its three components: the header, the payload (containing claims),
-          and the signature. It formats the JSON for easy reading and displays
-          additional information like expiration status and algorithm details.
-        </p>
-        <h3>Can this tool validate JWT signatures?</h3>
-        <p>
-          This tool decodes and inspects JWTs but does not perform cryptographic
-          signature verification. Signature verification requires the secret or
-          public key, which should be done server-side in your application.
-        </p>
-        <h3>Is decoding a JWT safe?</h3>
-        <p>
-          Yes. Decoding a JWT simply reads the Base64Url-encoded content. The
-          payload and header are not encrypted — they are only encoded.
-          However, the signature ensures integrity, so never trust a
-          token&apos;s claims without verifying its signature on your server.
-        </p>
-        <h3>Can I use this tool on my phone?</h3>
-        <p>
-          Yes! Our JWT decoder is fully responsive and works on all devices
-          including phones, tablets, and desktop computers.
-        </p>
-      </div>
+        <section aria-label="Frequently Asked Questions">
+          <h2>Frequently Asked Questions</h2>
+          <h3>What does a JWT decoder do?</h3>
+          <p>
+            A JWT decoder takes a Base64Url-encoded JWT string and decodes it into
+            its three components: the header, the payload (containing claims),
+            and the signature. It formats the JSON for easy reading and displays
+            additional information like expiration status and algorithm details.
+          </p>
+          <h3>Can this tool validate JWT signatures?</h3>
+          <p>
+            This tool decodes and inspects JWTs but does not perform cryptographic
+            signature verification. Signature verification requires the secret or
+            public key, which should be done server-side in your application.
+          </p>
+          <h3>Is decoding a JWT safe?</h3>
+          <p>
+            Yes. Decoding a JWT simply reads the Base64Url-encoded content. The
+            payload and header are not encrypted — they are only encoded.
+            However, the signature ensures integrity, so never trust a
+            token&apos;s claims without verifying its signature on your server.
+          </p>
+          <h3>Can I use this tool on my phone?</h3>
+          <p>
+            Yes! Our JWT decoder is fully responsive and works on all devices
+            including phones, tablets, and desktop computers.
+          </p>
+        </section>
+      </section>
 
       {/* CTA */}
-      <div className="mt-12 text-center p-8 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+      <section aria-label="Call to Action" className="mt-12 text-center p-8 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
         <h2 className="text-xl md:text-2xl font-bold">
           Want to learn more about JWT?
         </h2>
@@ -174,7 +180,7 @@ export default function HomePage() {
         >
           Read Our Blog
         </Link>
-      </div>
-    </div>
+      </section>
+    </article>
   );
 }
