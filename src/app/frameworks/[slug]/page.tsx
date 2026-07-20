@@ -21,7 +21,7 @@ export async function generateMetadata({
   const framework = getFrameworkBySlug(slug);
   if (!framework) return {};
 
-  const title = `JWT Authentication in ${framework.name} - Complete Guide | ${siteConfig.name}`;
+  const title = `JWT Authentication in ${framework.name} - Complete Guide`;
   const description = `Learn how to implement JWT authentication in ${framework.name}. Complete guide covering ${framework.jwtLibrary}, code examples, setup steps, and best practices for secure token-based auth.`;
 
   return {
