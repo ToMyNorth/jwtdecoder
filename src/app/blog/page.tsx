@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllBlogPosts } from "@/lib/blogContent";
+import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   title: "Blog - JWT Guides, Security Tips & Authentication Tutorials",
@@ -14,8 +15,45 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const posts = getAllBlogPosts();
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteConfig.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${siteConfig.url}/blog`,
+      },
+    ],
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
+      {/* Visual Breadcrumb */}
+      <nav aria-label="Breadcrumb" className="mb-4 text-sm text-gray-500">
+        <ol className="flex items-center gap-1.5 flex-wrap">
+          <li>
+            <Link href="/" className="hover:text-indigo-600 transition-colors">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true" className="text-gray-300">/</li>
+          <li className="text-gray-800 font-medium">Blog</li>
+        </ol>
+      </nav>
+
       <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Blog</h1>
       <p className="mt-3 text-gray-600">
         JWT guides, security best practices, and authentication tutorials to

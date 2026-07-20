@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "JWT Decoder Pro",
   shortName: "JWT Decoder",
-  url: "https://easyjwt.top",
+  url: "https://www.easyjwt.top",
   title: "JWT Decoder Pro - Free Online JWT Token Parser & Validator",
   description: "Free online JWT decoder and parser tool. Instantly decode, inspect and validate JSON Web Tokens. View header, payload, claims and expiration status with our fast, secure client-side JWT analyzer.",
   keywords: [
@@ -45,8 +45,59 @@ export const blogPosts = [
     date: "2025-01-05",
     readingTime: "7 min read",
   },
+  {
+    slug: "jwt-refresh-token",
+    title: "JWT Refresh Token: How to Implement Secure Token Rotation",
+    description: "Learn how to implement JWT refresh tokens and secure token rotation with access token refresh patterns. Complete implementation guide.",
+    date: "2025-07-10",
+    readingTime: "12 min read",
+  },
+  {
+    slug: "jwt-signing-algorithms",
+    title: "JWT Signing Algorithms: HS256 vs RS256 vs ES256 Compared",
+    description: "Compare JWT signing algorithms HS256, RS256, and ES256. Understand symmetric vs asymmetric JWT signing, performance, and use cases.",
+    date: "2025-07-10",
+    readingTime: "11 min read",
+  },
+  {
+    slug: "jwt-token-expiration",
+    title: "How to Handle JWT Token Expiration Gracefully",
+    description: "Master JWT token expiration handling with the exp claim, grace periods, and auto-refresh flows. Handle expired tokens gracefully.",
+    date: "2025-07-10",
+    readingTime: "10 min read",
+  },
+  {
+    slug: "jwt-microservices-authentication",
+    title: "JWT in Microservices: Authentication Patterns & Best Practices",
+    description: "Implement JWT authentication in microservices with API gateway patterns, token propagation, and distributed auth strategies.",
+    date: "2025-07-10",
+    readingTime: "13 min read",
+  },
+  {
+    slug: "jwt-token-revocation",
+    title: "JWT Token Revocation: Strategies and Implementation",
+    description: "Learn JWT token revocation strategies including blacklisting, whitelisting, and token versioning with practical implementation examples.",
+    date: "2025-07-10",
+    readingTime: "11 min read",
+  },
+  {
+    slug: "oauth2-and-jwt",
+    title: "OAuth 2.0 and JWT: How They Work Together",
+    description: "Understand how OAuth 2.0 and JWT work together for secure authorization. Learn about access tokens, ID tokens, and OpenID Connect.",
+    date: "2025-07-10",
+    readingTime: "12 min read",
+  },
+  {
+    slug: "jwt-auth-middleware",
+    title: "JWT Middleware: Building Auth Middleware in Express, Django & More",
+    description: "Build JWT authentication middleware in Express.js, Django, and FastAPI. Complete guide with code examples and best practices.",
+    date: "2025-07-10",
+    readingTime: "14 min read",
+  },
 ];
 
 export const navLinks = [
   { href: "/", label: "JWT Decoder" },
+  { href: "/frameworks", label: "Frameworks" },
+  { href: "/blog", label: "Blog" },
 ];

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBlogPost, getAllBlogPosts } from "@/lib/blogContent";
 import { siteConfig } from "@/lib/siteConfig";
+import TableOfContents, { type TocHeading } from "@/components/TableOfContents";
 
 export function generateStaticParams() {
   return getAllBlogPosts().map((post) => ({ slug: post.slug }));
@@ -39,6 +40,39 @@ export function generateMetadata({
   });
 }
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/<[^>]*>/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
+}
+
+function extractHeadings(md: string): TocHeading[] {
+  const headings: TocHeading[] = [];
+  const lines = md.split("\n");
+  let inCodeBlock = false;
+
+  for (const line of lines) {
+    if (line.trim().startsWith("```")) {
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+    if (inCodeBlock) continue;
+
+    if (line.startsWith("### ")) {
+      const text = line.slice(4).trim();
+      headings.push({ level: 3, text, id: slugify(text) });
+    } else if (line.startsWith("## ")) {
+      const text = line.slice(3).trim();
+      headings.push({ level: 2, text, id: slugify(text) });
+    }
+  }
+  return headings;
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -55,12 +89,15 @@ export default async function BlogPostPage({
     .filter((p) => p.slug !== slug)
     .slice(0, 3);
 
-  const jsonLd = {
+  const headings = extractHeadings(post.content);
+
+  const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
     datePublished: post.date,
+    image: `${siteConfig.url}/api/og?title=${encodeURIComponent(post.title)}`,
     author: {
       "@type": "Organization",
       name: siteConfig.author,
@@ -71,19 +108,60 @@ export default async function BlogPostPage({
     },
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteConfig.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${siteConfig.url}/blog`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: `${siteConfig.url}/blog/${post.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <Link
-        href="/blog"
-        className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
-      >
-        ← Back to Blog
-      </Link>
+      {/* Visual Breadcrumb */}
+      <nav aria-label="Breadcrumb" className="text-sm text-gray-500">
+        <ol className="flex items-center gap-1.5 flex-wrap">
+          <li>
+            <Link href="/" className="hover:text-indigo-600 transition-colors">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true" className="text-gray-300">/</li>
+          <li>
+            <Link href="/blog" className="hover:text-indigo-600 transition-colors">
+              Blog
+            </Link>
+          </li>
+          <li aria-hidden="true" className="text-gray-300">/</li>
+          <li className="text-gray-800 font-medium truncate">{post.title}</li>
+        </ol>
+      </nav>
 
       <div className="mt-4 flex items-center gap-3 text-sm text-gray-500">
         <time dateTime={post.date}>
@@ -102,6 +180,9 @@ export default async function BlogPostPage({
       </h1>
 
       <p className="mt-4 text-lg text-gray-600">{post.description}</p>
+
+      {/* Table of Contents */}
+      <TableOfContents headings={headings} />
 
       <div className="mt-8 prose max-w-none">
         <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
@@ -153,12 +234,10 @@ function renderMarkdown(md: string): string {
     // Handle code blocks
     if (line.trim().startsWith("```")) {
       if (inCodeBlock) {
-        // Close code block
         html += `<pre><code>${escapeHtml(codeContent)}</code></pre>`;
         codeContent = "";
         inCodeBlock = false;
       } else {
-        // Close any open list
         if (inList) {
           html += `</${listType}>`;
           inList = false;
@@ -180,11 +259,15 @@ function renderMarkdown(md: string): string {
       inList = false;
     }
 
-    // Headers
+    // Headers with id anchors
     if (line.startsWith("### ")) {
-      html += `<h3>${inlineFormat(line.slice(4))}</h3>`;
+      const text = line.slice(4).trim();
+      const id = slugify(text);
+      html += `<h3 id="${id}">${inlineFormat(text)}</h3>`;
     } else if (line.startsWith("## ")) {
-      html += `<h2>${inlineFormat(line.slice(3))}</h2>`;
+      const text = line.slice(3).trim();
+      const id = slugify(text);
+      html += `<h2 id="${id}">${inlineFormat(text)}</h2>`;
     } else if (line.startsWith("> ")) {
       html += `<blockquote>${inlineFormat(line.slice(2))}</blockquote>`;
     } else if (line.trim().startsWith("- ")) {
@@ -228,25 +311,23 @@ function escapeHtml(text: string): string {
 }
 
 function inlineFormat(text: string): string {
-  // Escape HTML first
   text = escapeHtml(text);
-  // Inline code
   text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
-  // Bold
   text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-  // Links [text](url) - XSS prevention: only allow http(s) and relative paths
   text = text.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
     (_match, linkText: string, url: string) => {
-      // Only allow safe URLs: http(s):// or relative paths starting with /
       const isSafeUrl =
         url.startsWith("http://") ||
         url.startsWith("https://") ||
         url.startsWith("/");
       if (isSafeUrl) {
-        return `<a href="${url}">${linkText}</a>`;
+        const isExternal = url.startsWith("http://") || url.startsWith("https://");
+        const attrs = isExternal
+          ? ` target="_blank" rel="noopener noreferrer"`
+          : "";
+        return `<a href="${url}"${attrs}>${linkText}</a>`;
       }
-      // For unsafe protocols (javascript:, data:, etc.), render as plain text
       return `${linkText} (${url})`;
     }
   );

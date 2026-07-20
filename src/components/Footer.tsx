@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig, blogPosts, navLinks } from "@/lib/siteConfig";
+import { frameworks } from "@/data/frameworks";
 
 export default function Footer() {
   const recentPosts = blogPosts.slice(0, 3);
@@ -7,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-gray-200 bg-gray-50">
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 font-bold text-gray-800 mb-3">
@@ -32,6 +33,31 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Frameworks */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-800 mb-3">Frameworks</h3>
+            <ul className="space-y-2">
+              {frameworks.slice(0, 6).map((f) => (
+                <li key={f.slug}>
+                  <Link
+                    href={`/frameworks/${f.slug}`}
+                    className="text-sm text-gray-500 hover:text-indigo-600 transition-colors"
+                  >
+                    {f.name}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/frameworks"
+                  className="text-sm text-indigo-600 hover:underline font-medium"
+                >
+                  View All →
+                </Link>
+              </li>
             </ul>
           </div>
 

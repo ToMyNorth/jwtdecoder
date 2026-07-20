@@ -70,56 +70,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const faqSchema = {
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What does a JWT decoder do?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "A JWT decoder takes a Base64Url-encoded JWT string and decodes it into its three components: the header, the payload (containing claims), and the signature. It formats the JSON for easy reading and displays additional information like expiration status and algorithm details.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can this tool validate JWT signatures?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "This tool decodes and inspects JWTs but does not perform cryptographic signature verification. Signature verification requires the secret or public key, which should be done server-side in your application.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is decoding a JWT safe?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Decoding a JWT simply reads the Base64Url-encoded content. The payload and header are not encrypted — they are only encoded. However, the signature ensures integrity, so never trust a token's claims without verifying its signature on your server.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I use this tool on my phone?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes! Our JWT decoder is fully responsive and works on all devices including phones, tablets, and desktop computers.",
-        },
-      },
-    ],
-  };
-
-  const breadcrumbSchema = {
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: siteConfig.url,
-      },
-    ],
-  };
-
   const webAppSchema = {
     "@type": "WebApplication",
     name: siteConfig.name,
@@ -140,7 +90,7 @@ export default function RootLayout({
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [webAppSchema, faqSchema, breadcrumbSchema],
+    "@graph": [webAppSchema],
   };
 
   return (

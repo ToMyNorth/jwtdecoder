@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us - Free Online JWT Decoder Tool | JWT Decoder Pro",
   description:
     "Learn about JWT Decoder Pro — a free online tool for decoding and inspecting JSON Web Tokens securely in your browser.",
 };

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy - JWT Decoder Pro | Your Data Security",
   description:
     "Privacy Policy for JWT Decoder Pro. Learn how we handle your data — we don't collect, store, or transmit your tokens.",
 };
@@ -21,7 +21,7 @@ export default function PrivacyPage() {
             JWT Decoder Pro (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) is committed to protecting your
             privacy. This Privacy Policy explains how we collect, use, and
             safeguard your information when you use our website at{" "}
-            <a href="https://easyjwt.top" className="text-indigo-600 hover:underline">
+            <a href="https://www.easyjwt.top" className="text-indigo-600 hover:underline">
               easyjwt.top
             </a>
             .
