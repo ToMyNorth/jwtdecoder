@@ -79,6 +79,26 @@ export default function HomePage() {
         <JWTDecoder />
       </section>
 
+      <section className="mt-8 rounded-xl border border-indigo-100 bg-indigo-50 px-5 py-4">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-base font-semibold text-gray-900">
+              Getting jwt malformed, invalid signature, or jwt expired?
+            </h2>
+            <p className="mt-1 text-sm text-gray-600">
+              Decode the token here, then use the error guide to find the failing
+              validation step and the safest fix.
+            </p>
+          </div>
+          <Link
+            href="/jwt-error-decoder"
+            className="inline-flex shrink-0 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-indigo-700 ring-1 ring-indigo-200 transition-colors hover:bg-indigo-100"
+          >
+            Open JWT error decoder
+          </Link>
+        </div>
+      </section>
+
       {/* Collapsible Content Sections */}
       <section aria-label="Additional Information" className="mt-12 md:mt-16 border-t border-gray-200 pt-10 md:pt-12">
         <div className="space-y-4">

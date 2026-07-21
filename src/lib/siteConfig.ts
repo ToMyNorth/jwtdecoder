@@ -98,6 +98,7 @@ export const blogPosts = [
 
 export const navLinks = [
   { href: "/", label: "JWT Decoder" },
+  { href: "/jwt-error-decoder", label: "Errors" },
   { href: "/jwt-claims-cheat-sheet", label: "Claims" },
   { href: "/frameworks", label: "Frameworks" },
   { href: "/blog", label: "Blog" },

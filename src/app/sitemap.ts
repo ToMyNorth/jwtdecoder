@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: siteConfig.url, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 1 },
     { url: `${siteConfig.url}/about`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 },
     { url: `${siteConfig.url}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
+    { url: `${siteConfig.url}/jwt-error-decoder`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
     { url: `${siteConfig.url}/jwt-claims-cheat-sheet`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.75 },
     { url: `${siteConfig.url}/frameworks`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 },
   ];
