@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const lastUpdated = "June 29, 2026";
+  const lastUpdated = "July 23, 2026";
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
@@ -78,9 +78,13 @@ export default function PrivacyPage() {
             <li>
               <strong>Vercel Analytics</strong> — We use Vercel&apos;s built-in
               analytics service, which collects anonymous, aggregated usage data
-              (such as page views and visitor counts). No personally
-              identifiable information is collected. Vercel Analytics does not
-              use cookies to track individual users.
+              such as page views, visitor counts, and successful decoder events.
+              Decoder events contain only a recognized algorithm category,
+              expiration status, and whether input was manual, pasted, or the
+              built-in sample. JWT contents, claims, signatures, and token
+              fingerprints are never included. No personally identifiable
+              information is intentionally collected through these events.
+              Vercel Analytics does not use cookies to track individual users.
             </li>
             <li>
               <strong>Google Analytics</strong> — If Google Analytics is added in

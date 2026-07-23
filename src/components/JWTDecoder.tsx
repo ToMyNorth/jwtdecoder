@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { track } from "@vercel/analytics/react";
 import { decodeJWT, isJWTError, formatDate, getAlgorithmInfo } from "@/lib/jwtUtils";
 import type { DecodedJWT, JWTPayload } from "@/lib/jwtUtils";
 
@@ -18,6 +19,22 @@ const CLAIM_LABELS: Record<string, string> = {
 };
 
 const STANDARD_CLAIMS = ["iss", "sub", "aud", "exp", "iat", "nbf", "jti"];
+const TRACKED_ALGORITHMS = [
+  "HS256",
+  "HS384",
+  "HS512",
+  "RS256",
+  "RS384",
+  "RS512",
+  "ES256",
+  "ES384",
+  "ES512",
+  "PS256",
+  "PS384",
+  "PS512",
+  "EdDSA",
+  "none",
+];
 
 function formatJson(obj: unknown, indent = 2): string {
   return JSON.stringify(obj, null, indent);
@@ -58,6 +75,8 @@ function formatClaimValue(value: unknown): string {
 
 export default function JWTDecoder() {
   const [token, setToken] = useState("");
+  const inputSource = useRef<"manual" | "paste" | "sample">("manual");
+  const lastTrackedToken = useRef("");
 
   const result = useMemo(() => (token.trim() ? decodeJWT(token) : null), [token]);
 
@@ -79,13 +98,17 @@ export default function JWTDecoder() {
   }, [token]);
 
   const handleSample = useCallback(() => {
+    inputSource.current = "sample";
     setToken(SAMPLE_JWT);
   }, []);
 
   const handlePaste = useCallback(async () => {
     try {
       const text = await navigator.clipboard.readText();
-      if (text) setToken(text.trim());
+      if (text) {
+        inputSource.current = "paste";
+        setToken(text.trim());
+      }
     } catch {
       // Clipboard API not available
     }
@@ -93,6 +116,27 @@ export default function JWTDecoder() {
 
   const decoded = result && !isJWTError(result) ? (result as DecodedJWT) : null;
   const error = result && isJWTError(result) ? result : null;
+
+  useEffect(() => {
+    if (!decoded || token === lastTrackedToken.current) return;
+
+    const timer = window.setTimeout(() => {
+      const algorithm = decoded.header.alg || "none";
+      track("jwt_decoded", {
+        algorithm: TRACKED_ALGORITHMS.includes(algorithm) ? algorithm : "other",
+        expiration_status:
+          decoded.payload.exp === undefined
+            ? "missing"
+            : decoded.isExpired
+              ? "expired"
+              : "active",
+        input_source: inputSource.current,
+      });
+      lastTrackedToken.current = token;
+    }, 500);
+
+    return () => window.clearTimeout(timer);
+  }, [decoded, token]);
 
   const algorithmInfo = decoded ? getAlgorithmInfo(decoded.header.alg || "none") : null;
 
@@ -123,7 +167,10 @@ export default function JWTDecoder() {
       <div className="relative">
         <textarea
           value={token}
-          onChange={(e) => setToken(e.target.value)}
+          onChange={(e) => {
+            inputSource.current = "manual";
+            setToken(e.target.value);
+          }}
           placeholder="Paste your JWT token here to instantly decode and inspect its header, payload, and signature..."
           className="w-full h-40 md:h-48 p-4 md:p-6 rounded-2xl border border-gray-200 bg-white text-gray-800 text-sm md:text-base font-mono leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition-all"
           aria-label="JWT token input"
