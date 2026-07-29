@@ -3,9 +3,9 @@ import Link from "next/link";
 import { siteConfig } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
-  title: "JWT Error Decoder - Fix Invalid, Expired, and Malformed Tokens",
+  title: "JWT Malformed Error Decoder - Fix Invalid and Expired Tokens",
   description:
-    "Decode common JWT errors such as jwt malformed, invalid signature, jwt expired, invalid audience, and not before. Find causes, checks, and practical fixes.",
+    "Fix JsonWebTokenError: jwt malformed, invalid signature, jwt expired, invalid audience, and not active errors. Find the cause, checks, and safe code fixes.",
   alternates: {
     canonical: "/jwt-error-decoder",
   },
@@ -20,7 +20,9 @@ export const metadata: Metadata = {
 
 const errors = [
   {
+    slug: "jwt-malformed",
     message: "jwt malformed",
+    libraryError: "JsonWebTokenError: jwt malformed",
     meaning: "The token does not have the expected three-part JWT structure.",
     checks: [
       "Confirm the token has exactly two dots: header.payload.signature.",
@@ -30,7 +32,9 @@ const errors = [
     fix: "Pass only the raw JWT string to your verifier or decoder.",
   },
   {
+    slug: "invalid-signature",
     message: "invalid signature",
+    libraryError: "JsonWebTokenError: invalid signature",
     meaning: "The token was signed with a different secret, private key, or algorithm than your verifier expects.",
     checks: [
       "Compare the alg value in the JWT header with your configured algorithm.",
@@ -40,7 +44,9 @@ const errors = [
     fix: "Verify with the expected algorithm and key pair for the token issuer.",
   },
   {
+    slug: "jwt-expired",
     message: "jwt expired",
+    libraryError: "TokenExpiredError: jwt expired",
     meaning: "The exp claim is in the past, so the token should no longer be accepted.",
     checks: [
       "Decode exp and compare it with the current Unix timestamp.",
@@ -50,7 +56,9 @@ const errors = [
     fix: "Refresh the access token or ask the user to sign in again.",
   },
   {
+    slug: "jwt-not-active",
     message: "jwt not active",
+    libraryError: "NotBeforeError: jwt not active",
     meaning: "The nbf claim says the token is not valid yet.",
     checks: [
       "Decode nbf and compare it with the server time.",
@@ -60,7 +68,9 @@ const errors = [
     fix: "Wait until nbf is reached or allow a small, intentional clock-skew window.",
   },
   {
+    slug: "invalid-audience",
     message: "invalid audience",
+    libraryError: "JsonWebTokenError: jwt audience invalid",
     meaning: "The aud claim does not match the API or application that received the token.",
     checks: [
       "Decode aud and compare it with the expected API identifier.",
@@ -70,7 +80,9 @@ const errors = [
     fix: "Request a token for the correct audience and enforce that audience server-side.",
   },
   {
+    slug: "invalid-issuer",
     message: "invalid issuer",
+    libraryError: "JsonWebTokenError: jwt issuer invalid",
     meaning: "The iss claim does not match the authority your API trusts.",
     checks: [
       "Decode iss and compare the exact URL or identifier, including trailing slash behavior.",
@@ -110,6 +122,14 @@ export default function JWTErrorDecoderPage() {
           text: "Check the JWT header algorithm, then verify with the exact secret or public key used by the issuer. Invalid signature often comes from using the wrong key, wrong algorithm, or missing environment variable.",
         },
       },
+      {
+        "@type": "Question",
+        name: "What causes JsonWebTokenError: jwt malformed?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The jsonwebtoken package throws this error when the value is not a three-part JWT. Pass only the token after the Bearer prefix, remove quotes and whitespace, and confirm the client did not send an opaque session token.",
+        },
+      },
     ],
   };
 
@@ -137,12 +157,12 @@ export default function JWTErrorDecoderPage() {
           Troubleshooting guide
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-5xl">
-          JWT Error Decoder
+          JWT Error Decoder: Fix jwt malformed and Token Errors
         </h1>
         <p className="mt-4 text-lg leading-8 text-gray-600">
-          Match common JWT error messages to the exact validation step that
-          failed, then fix malformed, expired, invalid-signature, issuer, and
-          audience problems without guessing.
+          Match errors such as <code>JsonWebTokenError: jwt malformed</code>,
+          invalid signature, and jwt expired to the validation step that failed,
+          then apply the safest fix without disabling verification.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
@@ -160,6 +180,21 @@ export default function JWTErrorDecoderPage() {
         </div>
       </header>
 
+      <nav aria-label="Jump to a JWT error" className="mt-8">
+        <p className="text-sm font-semibold text-gray-900">Jump to an error</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {errors.map((error) => (
+            <a
+              key={error.slug}
+              href={`#${error.slug}`}
+              className="rounded-lg border border-gray-200 bg-white px-3 py-2 font-mono text-xs font-semibold text-gray-700 transition-colors hover:border-indigo-300 hover:text-indigo-700"
+            >
+              {error.message}
+            </a>
+          ))}
+        </div>
+      </nav>
+
       <section className="mt-10 rounded-xl border border-gray-200 bg-white">
         <div className="border-b border-gray-200 px-5 py-4">
           <h2 className="text-xl font-bold text-gray-900">Common JWT errors and fixes</h2>
@@ -170,12 +205,19 @@ export default function JWTErrorDecoderPage() {
         </div>
         <div className="divide-y divide-gray-100">
           {errors.map((error) => (
-            <section key={error.message} className="px-5 py-6">
+            <section
+              key={error.message}
+              id={error.slug}
+              className="scroll-mt-24 px-5 py-6"
+            >
               <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                 <div>
                   <code className="rounded-lg bg-gray-100 px-3 py-1.5 font-mono text-sm font-semibold text-indigo-700">
                     {error.message}
                   </code>
+                  <p className="mt-3 font-mono text-xs text-gray-500">
+                    {error.libraryError}
+                  </p>
                   <p className="mt-3 text-sm leading-6 text-gray-700">{error.meaning}</p>
                 </div>
                 <p className="rounded-lg border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm font-medium text-indigo-900 md:max-w-xs">
@@ -192,6 +234,20 @@ export default function JWTErrorDecoderPage() {
             </section>
           ))}
         </div>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Fix jwt malformed in Node.js jsonwebtoken
+        </h2>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-gray-600">
+          Read the authorization header defensively, remove the Bearer scheme,
+          reject missing values, and keep the expected algorithm explicit.
+          Never log or send the raw token to analytics.
+        </p>
+        <pre className="mt-5 overflow-x-auto rounded-lg bg-gray-950 p-5 text-sm leading-6 text-gray-100">
+          <code>{`const authorization = req.headers.authorization ?? "";\nconst token = authorization.replace(/^Bearer\\\\s+/i, "").trim();\n\nif (!token || token.split(".").length !== 3) {\n  return res.status(401).json({ error: "Malformed JWT" });\n}\n\ntry {\n  jwt.verify(token, publicKey, {\n    algorithms: ["RS256"],\n  });\n} catch (error) {\n  // Map the library error to a generic client response.\n  return res.status(401).json({ error: "Invalid or expired JWT" });\n}`}</code>
+        </pre>
       </section>
 
       <section className="mt-12 grid gap-8 md:grid-cols-[1fr_0.85fr]">
@@ -241,6 +297,16 @@ export default function JWTErrorDecoderPage() {
               Common causes include different environment variables, a different
               issuer URL, missing public keys, clock drift, or a production API
               expecting a different audience value.
+            </p>
+          </div>
+          <div className="rounded-xl border border-gray-200 bg-white p-5">
+            <h3 className="font-semibold text-gray-900">
+              What causes JsonWebTokenError: jwt malformed?
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-gray-600">
+              The value is not a three-part JWT. Common causes are passing the
+              full Authorization header, including quotes or whitespace, using
+              an empty value, or sending an opaque session token instead.
             </p>
           </div>
         </div>
