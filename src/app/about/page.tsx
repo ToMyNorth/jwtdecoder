@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "About Us - Free Online JWT Decoder Tool | JWT Decoder Pro",
   description:
     "Learn about JWT Decoder Pro — a free online tool for decoding and inspecting JSON Web Tokens securely in your browser.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutPage() {
