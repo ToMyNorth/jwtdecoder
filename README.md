@@ -1,10 +1,10 @@
-# 🔑 JWT Decoder Pro — Free Online JWT Token Parser & Validator
+# 🔑 EasyJWT — Free, Private JWT Decoder & Troubleshooting Hub
 
 **Instantly decode, inspect, and validate JSON Web Tokens. 100% client-side, zero data upload.**
 
-👉 **[easyjwt.top](https://easyjwt.top)**
+👉 **[Open EasyJWT](https://www.easyjwt.top)**
 
-![JWT Decoder Pro](https://easyjwt.top/api/og?title=JWT%20Decoder%20Pro&description=Free%20Online%20JWT%20Token%20Parser%20%26%20Validator)
+![EasyJWT](https://www.easyjwt.top/api/og?title=EasyJWT&description=Free%2C%20Private%20JWT%20Decoder%20%26%20Troubleshooting%20Hub)
 
 ## ✨ Features
 
@@ -44,14 +44,15 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 | Page | URL | Description |
 |------|-----|-------------|
-| Home | `/` | JWT decoder & parser tool |
-| Frameworks | `/frameworks` | JWT implementation guides |
-| Blog | `/blog` | JWT security articles |
-| About | `/about` | About JWT Decoder Pro |
+| Decoder | [easyjwt.top](https://www.easyjwt.top) | Decode and inspect JWT headers, payloads, claims, and expiration locally |
+| Error Decoder | [JWT error decoder](https://www.easyjwt.top/jwt-error-decoder) | Troubleshoot malformed, invalid-signature, and expired-token errors |
+| Claims Cheat Sheet | [JWT claims cheat sheet](https://www.easyjwt.top/jwt-claims-cheat-sheet) | Reference standard JWT claims and expiration fields |
+| Frameworks | [Framework guides](https://www.easyjwt.top/frameworks) | JWT implementation guides for popular frameworks |
+| Blog | [Security articles](https://www.easyjwt.top/blog) | Practical JWT security and authentication articles |
 
 ## 🌐 Live
 
-**[easyjwt.top](https://easyjwt.top)** — Free, no signup required.
+**[www.easyjwt.top](https://www.easyjwt.top)** — Free, private, and no signup required.
 
 ## 📝 License
 
